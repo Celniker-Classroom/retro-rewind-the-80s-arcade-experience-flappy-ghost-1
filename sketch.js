@@ -18,7 +18,15 @@ function images() {
     backgroundImg = loadImage("");
  }
 
-function 
+function setup() {
+    new Canvas(800, 500); 
+ 
+    gravestones = new Group(); 
+    vines = new Group(); 
+    gravestonesTop.collider = "static"; 
+    createGhost(); 
+} 
+
 function startGame() { 
     gameState = "play"; 
     score = 0; 
