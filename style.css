@@ -3,4 +3,16 @@ body {
     overflow: hidden;
     background-color:rgb(41, 46, 101);
     font-family: "Courier New", monospace;
+    color: white;
+    margin-left: 20px;
+}
+
+#startBtn {
+    font-family: "Courtier New", monospace;
+    background-color: white;
+    color:rgb(41, 46, 101)
+}
+
+#startBtn:hover {
+    background-color: rgb(176, 176, 176)
 }

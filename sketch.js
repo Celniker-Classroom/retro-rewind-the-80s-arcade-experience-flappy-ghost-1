@@ -27,6 +27,7 @@ function setup() {
     createGhost(); 
 } 
 
+
 function startGame() { 
     gameState = "play"; 
     score = 0; 
@@ -35,6 +36,14 @@ function startGame() {
     ghost.vel.y = 0; 
     gravestones.removeAll(); 
     vines.removeAll(); }
+
+document.getElementById('startBtn').addEventListener("click", function() {
+        document.getElementById("easy").hidden = true;
+            startGame();
+            
+       });
+
+
 
 // await Canvas();
 // world.gravity.y = 10;
