@@ -5,16 +5,10 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" href="favicon.png">
-	<title>q5play</title>
+	<link rel="stylesheet" href="style.css">
+	<title>Flappy Ghost</title>
 	<style>
-		html,
-		body {
-			background-color: rgb(255, 255, 255);
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			overscroll-behavior: none;
-		}
+	
 	</style>
 </head>
 
@@ -22,18 +16,22 @@
 	<main></main>
 
 	<!-- ONLINE LINKS -->
-	<script type="module" src="https://q5js.org/q5.js"></script>
-	<script type="importmap">
+	 <script src="script.js" defer></script>
+	<!-- <script type="importmap">
     { "imports": {
       "box2d3-wasm": "https://q5play.org/Box2D.deluxe.mjs"
-    } }
+    } } -->
+
   </script>
-	<script type="module" src="https://q5play.org/q5play.js"></script>
-	<input type="button" >Start</button>
-	<h2> Select your difficulty! </h2>
-	<input type="button">Easy</button>
-	<input type="button">Medium</button>
-	<input type="button">Hard</button>
+	 <script src="script.js" defer></script>
+	<h2> Select your difficulty! <div id = "startMsg"> </id> </h2>
+     <input type="radio"  id="easy" class ="q" value="0"> Easy</label>
+     <input type="radio"  id="medium" class ="q" value="0"> Medium</label>
+     <input type="radio"  id="hard" class ="q" value="0"> Hard</label>
+
+	 <input type="button" id="startBtn" value="Start" class="startBtn" >
+
+
 
 	<!-- OFFLINE LINKS -->
 	<!--
