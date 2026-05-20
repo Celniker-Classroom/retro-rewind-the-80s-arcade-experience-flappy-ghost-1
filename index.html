@@ -15,37 +15,18 @@
 <body>
 	<main></main>
 
-	<!-- ONLINE LINKS -->
-	 <script src="script.js" defer></script>
-	<!-- <script type="importmap">
-    { "imports": {
-      "box2d3-wasm": "https://q5play.org/Box2D.deluxe.mjs"
-    } } -->
+	<h2>Select your difficulty! <div id="startMsg"></div></h2>
+	<input type="radio" id="easy" class="q" value="0"> <label for="easy">Easy</label>
+	<input type="radio" id="medium" class="q" value="0"> <label for="medium">Medium</label>
+	<input type="radio" id="hard" class="q" value="0"> <label for="hard">Hard</label>
 
-  </script>
-	 <script src="script.js" defer></script>
-	<h2> Select your difficulty! <div id = "startMsg"> </id> </h2>
-     <input type="radio"  id="easy" class ="q" value="0"> Easy</label>
-     <input type="radio"  id="medium" class ="q" value="0"> Medium</label>
-     <input type="radio"  id="hard" class ="q" value="0"> Hard</label>
+	<input type="button" id="startBtn" value="Start" class="startBtn">
 
-	 <input type="button" id="startBtn" value="Start" class="startBtn" >
+	<!-- Load p5.js library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
 
-
-
-	<!-- OFFLINE LINKS -->
-	<!--
-  <script type="module" src="/node_modules/q5/q5.js"></script>
-  <script type="importmap">
-    { "imports": {
-      "box2d3-wasm": "/node_modules/box2d3-wasm/build/dist/es/deluxe/Box2D.deluxe.mjs"
-    } }
-  </script>
-  <script type="module" src="/node_modules/q5play/q5play.js"></script>
-  -->
-
-	<!-- YOUR SKETCH -->
-	<script type="module" src="sketch.js"></script>
+	<!-- Your sketch -->
+	<script src="sketch.js"></script>
 </body>
 
 </html>
