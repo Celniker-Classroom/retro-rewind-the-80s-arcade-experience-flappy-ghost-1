@@ -74,137 +74,193 @@
 let bird;
 let pipes;
 let isGameOver = false;
-let hasGameBegun = false; 
+let hasGameBegun = false;
 let score = 0;
-let arcadeFont;
 
 let minDistanceBetweenPipes;
 let nextSpawnDistance;
 
-function preload() {
-  arcadeFont = loadFont('assets/arcadefont.ttf');
-}
-
 function setup() {
   createCanvas(600, 400);
   minDistanceBetweenPipes = width / 3;
-  textFont(arcadeFont); 
-  
+
   resetGame();
-  
-  // stop game loop until space bar hit to begin
+
+  // stop game loop until the player starts
   noLoop();
-  
-  // Add click listener to start button
-  document.getElementById('startBtn').addEventListener('click', startGameFromButton);
+
+  const startBtn = document.getElementById('startBtn');
+  if (startBtn) {
+    startBtn.addEventListener('click', startGameFromButton);
+  }
 }
 
 function startGameFromButton() {
-  if (!hasGameBegun) {
+  if (!hasGameBegun || isGameOver) {
+    resetGame();
     hasGameBegun = true;
     loop();
   }
 }
 
-function resetGame(){
+function resetGame() {
   score = 0;
-  isGameOver = false; 
-  
+  isGameOver = false;
+
   bird = new Bird(64, height / 2);
   pipes = [new Pipe()];
-  nextSpawnDistance = random(minDistanceBetweenPipes, width - width/4);
+  nextSpawnDistance = random(minDistanceBetweenPipes, width - width / 4);
 }
 
 function draw() {
   background(220);
-  
-  // this controls how often we spawn new pipes. 
-  // if(frameCount % 80 == 0){ 
-  //   pipes.push(new Pipe()); 
-  // }
-  
-  if(pipes.length <= 0 || width - pipes[pipes.length - 1].x >= nextSpawnDistance){
-    pipes.push(new Pipe()); 
-    nextSpawnDistance = random(minDistanceBetweenPipes, width - width/5);
+
+  if (pipes.length <= 0 || width - pipes[pipes.length - 1].x >= nextSpawnDistance) {
+    pipes.push(new Pipe());
+    nextSpawnDistance = random(minDistanceBetweenPipes, width - width / 5);
   }
-  
-  // loop through all the pipes and update them
-  for(let i = pipes.length - 1; i >= 0; i--){
+
+  for (let i = pipes.length - 1; i >= 0; i--) {
     pipes[i].update();
     pipes[i].draw();
-    
-    // if we hit the pipe, end game
-    if(pipes[i].checkIfHitsBird(bird)){
+
+    if (pipes[i].checkIfHitsBird(bird)) {
       isGameOver = true;
-      noLoop(); // game is over, stop game loop
+      noLoop();
     }
-    
-    // if we successfully pass the pipe, increase the score
-    if(pipes[i].pastBird === false && pipes[i].checkIfPastBird(bird)){
+
+    if (pipes[i].pastBird === false && pipes[i].checkIfPastBird(bird)) {
       score++;
     }
-    
-    // remove pipes that have gone off the screen
-    if(pipes[i].x + pipes[i].width < 0){
-      pipes.splice(i, 1); 
+
+    if (pipes[i].x + pipes[i].width < 0) {
+      pipes.splice(i, 1);
     }
   }
-  
+
   bird.update();
-  bird.draw(); 
+  bird.draw();
   drawScore();
 }
 
 function drawScore() {
-
   fill(0);
   textAlign(LEFT);
   textSize(15);
-  text('Score:' + score, 10, 20);
+  text('Score: ' + score, 10, 20);
 
   if (isGameOver) {
-
-    // dark overlay
-    fill(0, 0, 0, 100);
+    fill(0, 0, 0, 150);
     rect(0, 0, width, height);
 
-    // draw game over text
     textAlign(CENTER);
     textSize(35);
     fill(255);
     text('GAME OVER!', width / 2, height / 3);
-    
+
     textSize(12);
-    text('Press SPACE BAR to play again.', width / 2, height / 2);
-  }else if(hasGameBegun == false){
-    // if we're here, then the game has yet to begin for the first time
-    
-    // dark overlay
-    fill(0, 0, 0, 100);
+    text('Press SPACE BAR or Start to play again.', width / 2, height / 2);
+  } else if (!hasGameBegun) {
+    fill(0, 0, 0, 150);
     rect(0, 0, width, height);
 
-    // draw game over text
     textAlign(CENTER);
-    textSize(15);
+    textSize(18);
     fill(255);
-    text('Press SPACE BAR to play!', width / 2, height / 3);
+    text('Click Start to begin!', width / 2, height / 2);
   }
- 
 }
 
-function keyPressed(){
-  if (key == ' '){ // spacebar 
-    bird.flap();
+function keyPressed() {
+  if (key === ' ') {
+    if (isGameOver) {
+      resetGame();
+      hasGameBegun = true;
+      loop();
+    } else if (!hasGameBegun) {
+      hasGameBegun = true;
+      loop();
+      bird.flap();
+    } else {
+      bird.flap();
+    }
   }
-  
-  // check for special states (game over or if game hasn't begun)
-  if (isGameOver == true && key == ' ') {
-    resetGame();
-    hasGameBegun = true;
-    loop();
-  }else if(hasGameBegun == false && key == ' '){
-    hasGameBegun = true;
-    loop();
+}
+
+class Bird {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.size = 32;
+    this.vel = createVector(0, 0);
+    this.gravity = 0.6;
+    this.lift = -12;
+  }
+
+  update() {
+    this.vel.y += this.gravity;
+    this.y += this.vel.y;
+
+    if (this.y > height - this.size / 2) {
+      this.y = height - this.size / 2;
+      this.vel.y = 0;
+      isGameOver = true;
+      noLoop();
+    }
+
+    if (this.y < this.size / 2) {
+      this.y = this.size / 2;
+      this.vel.y = 0;
+    }
+  }
+
+  draw() {
+    fill(255, 204, 0);
+    stroke(0);
+    ellipse(this.x, this.y, this.size);
+  }
+
+  flap() {
+    if (!isGameOver) {
+      this.vel.y = this.lift;
+    }
+  }
+}
+
+class Pipe {
+  constructor() {
+    this.spacing = 120;
+    this.top = random(40, height - this.spacing - 40);
+    this.bottom = height - this.top - this.spacing;
+    this.x = width;
+    this.width = 50;
+    this.speed = 3;
+    this.pastBird = false;
+  }
+
+  update() {
+    this.x -= this.speed;
+  }
+
+  draw() {
+    fill(34, 139, 34);
+    noStroke();
+    rect(this.x, 0, this.width, this.top);
+    rect(this.x, height - this.bottom, this.width, this.bottom);
+  }
+
+  checkIfHitsBird(bird) {
+    const hitX = bird.x + bird.size / 2 > this.x && bird.x - bird.size / 2 < this.x + this.width;
+    if (!hitX) return false;
+    return bird.y - bird.size / 2 < this.top || bird.y + bird.size / 2 > height - this.bottom;
+  }
+
+  checkIfPastBird(bird) {
+    if (!this.pastBird && bird.x > this.x + this.width) {
+      this.pastBird = true;
+      return true;
+    }
+    return false;
   }
 }
 
