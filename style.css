@@ -1,10 +1,17 @@
 body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
     background-color:rgb(41, 46, 101);
     font-family: "Courier New", monospace;
     color: white;
-    margin-left: 20px;
+    width: 100%;
+    height: 100vh;
+}
+
+main {
+    width: 100%;
+    height: 100%;
 }
 
 #startBtn {
@@ -15,4 +22,77 @@ body {
 
 #startBtn:hover {
     background-color: rgb(176, 176, 176)
+}
+
+#container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+
+h1 {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+}
+
+h2 {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    margin: 0;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 150px;
+ 
+}
+
+    
+
+input[type="radio"], label {
+    position: absolute;
+    z-index: 10;
+    margin: 0;
+}
+
+#easy {
+    top: 50px;
+     left: 50%;
+    transform: translateX(-50%);
+    margin-top: 175px
+}
+
+#medium {
+    top: 75px;
+     left: 50%;
+    transform: translateX(-50%);
+    margin-top: 175px
+}
+
+#hard {
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 175px
+}
+
+#startBtn {
+    position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    margin-top: 200px
+}
+
+h2 {
+    color: white;
 }

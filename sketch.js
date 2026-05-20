@@ -1,75 +1,4 @@
-// let gameState = "startScreen"; 
-// let ghost;
 
-// let vines; 
-// let gravestones;
-
-// let score = 0; 
-// let gameSpeed = 1; 
-// let obstacleTimer = 0; 
-
-// //Will add images from Piskel
-// let ghostImg; 
-// let gravestoneImg; 
-
-// function images() {
-//     ghostImg = loadImage(""); 
-//     gravestoneImg = loadImage(""); 
-//     backgroundImg = loadImage("");
-//  }
-
-// function setup() {
-//     new Canvas(800, 500); 
- 
-//     gravestones = new Group(); 
-//     vines = new Group(); 
-//     gravestonesTop.collider = "static"; 
-//     createGhost(); 
-// } 
-
-
-// function startGame() { 
-//     gameState = "play"; 
-//     score = 0; 
-//     ghost.x = 150; 
-//     ghost.y = 250; 
-//     ghost.vel.y = 0; 
-//     gravestones.removeAll(); 
-//     vines.removeAll(); }
-
-// document.getElementById('startBtn').addEventListener("click", function() {
-//         document.getElementById("easy").hidden = true;
-//             startGame();
-            
-//        });
-
-
-
-// await Canvas();
-// world.gravity.y = 10;
-
-// let ball = new Sprite();
-// ball.diameter = 50;
-// ball.img = '🤪';
-
-// let groundA = new Sprite();
-// groundA.x = -120;
-// groundA.width = 220;
-// groundA.rotation = 30;
-// groundA.physics = STATIC;
-
-// let groundB = new Sprite();
-// groundB.x = 120;
-// groundB.width = 220;
-// groundB.rotation = -30;
-// groundB.physics = STATIC;
-
-// q5.update = function () {
-// 	background('skyblue');
-// 	text('click to jump!', 0, -50);
-
-// 	if (mouse.presses()) ball.vel.y = -5;
-// };
 
 let bird;
 let pipes;
@@ -81,7 +10,7 @@ let minDistanceBetweenPipes;
 let nextSpawnDistance;
 
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(windowWidth, windowHeight);
   minDistanceBetweenPipes = width / 3;
 
   resetGame();
@@ -92,10 +21,15 @@ function setup() {
   const startBtn = document.getElementById('startBtn');
   if (startBtn) {
     startBtn.addEventListener('click', startGameFromButton);
-  }
+    }
 }
 
 function startGameFromButton() {
+    document.getElementById('easy').hidden = true
+    document.getElementById('medium').hidden = true
+    document.getElementById('hard').hidden = true
+    document.getElementById('startBtn').hidden = true
+    document.getElementById('startMsg').hidden = true
   if (!hasGameBegun || isGameOver) {
     resetGame();
     hasGameBegun = true;
@@ -154,11 +88,11 @@ function drawScore() {
     rect(0, 0, width, height);
 
     textAlign(CENTER);
-    textSize(35);
+    textSize(50);
     fill(255);
     text('GAME OVER!', width / 2, height / 3);
 
-    textSize(12);
+    textSize(30);
     text('Press SPACE BAR or Start to play again.', width / 2, height / 2);
   } else if (!hasGameBegun) {
     fill(0, 0, 0, 150);
@@ -169,6 +103,10 @@ function drawScore() {
     fill(255);
     text('Click Start to begin!', width / 2, height / 2);
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function keyPressed() {
@@ -193,8 +131,8 @@ class Bird {
     this.y = y;
     this.size = 32;
     this.vel = createVector(0, 0);
-    this.gravity = 0.6;
-    this.lift = -12;
+    this.gravity = 0.3;
+    this.lift = -6;
   }
 
   update() {
