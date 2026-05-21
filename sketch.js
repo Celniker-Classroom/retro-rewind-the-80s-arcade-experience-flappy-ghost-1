@@ -13,7 +13,6 @@ let gameSpeedMultiplier = 1;
 
 let minDistanceBetweenObstacles;
 let nextSpawnDistance;
-document.getElementById("restart").hidden = true;
 
 //sprites
 let ghostSprite;
@@ -171,27 +170,6 @@ function drawScore() {
 
 
 
-function changeDifficulty() {
-  hasGameBegun = false;
-  isGameOver = false;
-  resetGame();
-
-  const startScreen = document.getElementById('startScreen');
-  const difficulty = document.getElementById('difficulty');
-  const radioRow = document.querySelector('.radio-row');
-  const startBtn = document.getElementById('startBtn');
-  const restartBtn = document.getElementById('restart');
-
-  if (startScreen) startScreen.hidden = false;
-  if (difficulty) difficulty.hidden = false;
-  if (radioRow) radioRow.hidden = false;
-  if (startBtn) startBtn.hidden = false;
-  if (restartBtn) restartBtn.hidden = true;
-
-  noLoop();
-  redraw();
-}
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   minDistanceBetweenObstacles = width / 3;
@@ -338,4 +316,3 @@ class Obstacle {
     return false;
   }
 }
-

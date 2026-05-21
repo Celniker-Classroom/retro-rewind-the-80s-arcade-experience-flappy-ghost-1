@@ -20,8 +20,7 @@ h1 {
 
     color: white;
     text-align: center;
-    font-size: 50px;
-    font-family: 'Georgia', serif;
+    font-size: 55px;
 }
 
 h2 {
@@ -32,11 +31,8 @@ h2 {
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    margin: 0;
-    font-size: 30px;
-    text-align: center;
-    margin-top: 150px;
-    font-family: 'Georgia', serif;
+    font-size: 28px;
+
 }
 
 
@@ -76,10 +72,7 @@ h2 {
     left: 48%;
 }
 
-#restart {
-    font-family: 'Georgia', serif;
-    background-color: white;
-    color: rgb(41, 46, 101);
+#startBtn {
     position: absolute;
     top: 420px;
     left: 50%;
