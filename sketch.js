@@ -1,17 +1,37 @@
+//create the variables 
+let ghost;
+let obstacles;
 
-
-let bird;
-let pipes;
 let isGameOver = false;
 let hasGameBegun = false;
 let score = 0;
 
-let minDistanceBetweenPipes;
+let minDistanceBetweenObstacles;
 let nextSpawnDistance;
+
+//sprites
+let ghostSprite;
+
+let graveSprites = [];
+let vineSprites = [];
+
+//where images will be added in future (not sure if '' or "")
+function preload() {
+  ghostSprite = loadImage('');
+
+  graveSprites[0] = loadImage('');
+  graveSprites[1] = loadImage('');
+  graveSprites[2] = loadImage('');
+  graveSprites[3] = loadImage('');
+
+  vineSprites[0] = loadImage('');
+  vineSprites[1] = loadImage('');
+}
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  minDistanceBetweenPipes = width / 3;
+  minDistanceBetweenObstacles = width / 3;
 
   resetGame();
 
