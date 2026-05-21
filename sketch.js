@@ -24,19 +24,16 @@ let stars = [];
 
 //where images will be added in future (not sure if this is correct way to do )
 function preload() {
-  // ghostSprite = loadImage('');
+  ghostSprite = loadImage('ghost.png');
 
-  // graveSprites[0] = loadImage('');
-  // graveSprites[1] = loadImage('');
-  // graveSprites[2] = loadImage('');
-  // graveSprites[3] = loadImage('');
+  graveSprites[0] = loadImage('smallgrave.png');
+  graveSprites[1] = loadImage('mediumgrave.png');
+  graveSprites[2] = loadImage('cross.png');
+  graveSprites[3] = loadImage('bigcross.png');
 
-  // vineSprites[0] = loadImage('');
-  // vineSprites[1] = loadImage('');
+  vineSprites[0] = loadImage('vine1.png');
+  vineSprites[1] = loadImage('vine2.png');
 
-  ghostSprite = null; 
-  graveSprites = []; 
-  vineSprites = []; 
 }
 
 
@@ -264,14 +261,13 @@ class Obstacle {
     this.width = 90;
 
     this.pastGhost = false;
-    // this.graveSprite = random(graveSprites);
-    // this.vineSprite = random(vineSprites);
-    // this.graveSprite = random(graveSprites.filter(img => img)); 
-    // this.vineSprite = random(vineSprites.filter(img => img));
+    this.graveSprite = random(graveSprites);
+    this.vineSprite = random(vineSprites);
+    this.graveSprite = random(graveSprites.filter(img => img)); 
+    this.vineSprite = random(vineSprites.filter(img => img));
     const g = graveSprites.filter(img => img); 
     const v = vineSprites.filter(img => img); 
-    this.graveSprite = g.length ? random(g) : null; 
-    this.vineSprite = v.length ? random(v) : null;
+ 
   }
 
   update() {
