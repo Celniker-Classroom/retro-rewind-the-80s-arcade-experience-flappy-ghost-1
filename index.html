@@ -4,9 +4,11 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" href="favicon.png">
-	<link rel="stylesheet" href="style.css">
+
 	<title>Flappy Ghost</title>
+
+	<link rel="stylesheet" href="style.css">
+
 	<style>
 	
 	</style>
@@ -15,14 +17,17 @@
 <body>
 	<main></main> 
 	
-		<h1> Welcome to Flappy Ghost! </h1>
-		<h2> Select your difficulty! </h2>
-		<input type="radio" id="easy" > <label for="easy">Easy</label>
-		<input type="radio" id="medium" > <label for="medium">Medium</label>
-		<input type="radio" id="hard" > <label for="hard">Hard</label>
+		<h1> Welcome to Flappy Ghost!</h1>
+		<h2 id="startMsg">Select your difficulty!</h2>
+		<input type="radio" id="easy" name="difficulty" checked> 
+		<label for="easy">Easy</label>
+		<input type="radio" id="medium" name="difficulty"> 
+		<label for="medium">Medium</label>
+		<input type="radio" id="hard" name="difficulty"> 
+		<label for="hard">Hard</label>
 	
 
-	<input type="button" id="startBtn" value="Start" class="startBtn">
+	<input type="button" id="startBtn" value="Start">
 
 	<!-- Load p5.js library -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>

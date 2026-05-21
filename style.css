@@ -1,98 +1,90 @@
 body {
     margin: 0;
-    padding: 0;
     overflow: hidden;
     background-color:rgb(41, 46, 101);
     font-family: "Courier New", monospace;
+    letter-spacing: 2px;
     color: white;
-    width: 100%;
-    height: 100vh;
 }
 
-main {
-    width: 100%;
-    height: 100%;
+canvas {
+    display: block;
 }
-
-#startBtn {
-    font-family: "Courtier New", monospace;
-    background-color: white;
-    color:rgb(41, 46, 101)
-}
-
-#startBtn:hover {
-    background-color: rgb(176, 176, 176)
-}
-
-#container {
-  display: grid;
-  place-items: center;
-  height: 100vh;
-}
-
 
 h1 {
     position: absolute;
-    top: 10px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+
     color: white;
     text-align: center;
-    font-size: 50px;
+    font-size: 55px;
 }
 
 h2 {
     position: absolute;
-    top: 10px;
+    top: 150px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    margin: 0;
-    font-size: 30px;
-    text-align: center;
-    margin-top: 150px;
- 
+    font-size: 28px;
+
 }
 
-    
 
-input[type="radio"], label {
+#easy, #medium, #hard, #easyLabel, #mediumLabel, #hardLabel {
     position: absolute;
     z-index: 10;
-    margin: 0;
+    font-size: 22px;
 }
 
 #easy {
-    top: 50px;
-     left: 50%;
-    transform: translateX(-50%);
-    margin-top: 175px
+    top: 250px;
+    left: 46%;
+}
+
+#easyLabel {
+    top: 246px;
+    left: 48%;
 }
 
 #medium {
-    top: 75px;
-     left: 50%;
-    transform: translateX(-50%);
-    margin-top: 175px
+    top: 290px;
+    left: 46%;
 }
 
+#mediumLabel {
+    top: 286px;
+    left: 48%;
+}
 #hard {
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 175px
+    top: 330px;
+    left: 46%;
+
+}
+
+#hardLabel {
+    top: 326px;
+    left: 48%;
 }
 
 #startBtn {
     position: absolute;
-    top: 130px;
+    top: 420px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    margin-top: 200px
+    padding: 12px 30px;
+    font-size: 24px;
+    border: none;
+    background-color: white;
+    color: rgb(20, 20, 40);
+    cursor: pointer;
+
 }
 
-h2 {
-    color: white;
+#startBtn:hover {
+    background-color: rgb(220, 220, 220);
 }
