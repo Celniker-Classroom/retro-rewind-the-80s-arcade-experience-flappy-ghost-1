@@ -15,16 +15,16 @@
 </head>
 
 <body>
-	<main></main> 
+	<main>
 	
 		<h1> Welcome to Flappy Ghost!</h1>
 		<h2 id="startMsg">Select your difficulty!</h2>
 		<input type="radio" id="easy" name="difficulty" checked> 
-		<label for="easy">Easy</label>
 		<input type="radio" id="medium" name="difficulty"> 
-		<label for="medium">Medium</label>
 		<input type="radio" id="hard" name="difficulty"> 
-		<label for="hard">Hard</label>
+		<label id="easyLabel" for="easy">Easy</label> 
+		<label id="mediumLabel" for="medium">Medium</label> 
+		<label id="hardLabel" for="hard">Hard</label>
 	
 
 	<input type="button" id="startBtn" value="Start">
@@ -34,6 +34,7 @@
 
 	<!-- Your sketch -->
 	<script src="sketch.js"></script>
+	</main> 
 </body>
 
 </html>

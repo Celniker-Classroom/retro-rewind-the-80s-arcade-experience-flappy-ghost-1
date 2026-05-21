@@ -25,7 +25,9 @@ h1 {
 
 h2 {
     position: absolute;
+    
     top: 150px;
+    margin-top: 75px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -41,32 +43,32 @@ h2 {
 }
 
 #easy {
-    top: 250px;
-    left: 46%;
-}
-
-#easyLabel {
-    top: 246px;
-    left: 48%;
-}
-
-#medium {
     top: 290px;
     left: 46%;
 }
 
-#mediumLabel {
+#easyLabel {
     top: 286px;
     left: 48%;
 }
-#hard {
+
+#medium {
     top: 330px;
+    left: 46%;
+}
+
+#mediumLabel {
+    top: 326px;
+    left: 48%;
+}
+#hard {
+    top: 370px;
     left: 46%;
 
 }
 
 #hardLabel {
-    top: 326px;
+    top: 366px;
     left: 48%;
 }
 
