@@ -22,23 +22,25 @@ let vineSprites = [];
 
 let stars = [];
 
+console.log('sketch.js loaded');
+
 //where images will be added in future (not sure if this is correct way to do )
 function preload() {
-  ghostSprite = loadImage('ghost.png');
+  ghostSprite = loadImage('images/ghost.png');
 
-  graveSprites[0] = loadImage('smallgrave.png');
-  graveSprites[1] = loadImage('mediumgrave.png');
-  graveSprites[2] = loadImage('cross.png');
-  graveSprites[3] = loadImage('bigcross.png');
+  graveSprites[0] = loadImage('images/smallgrave.png');
+  graveSprites[1] = loadImage('images/mediumgrave.png');
+  graveSprites[2] = loadImage('images/cross.png');
+  graveSprites[3] = loadImage('images/bigcross.png');
 
-  vineSprites[0] = loadImage('vine1.png');
-  vineSprites[1] = loadImage('vine2.png');
+  vineSprites[0] = loadImage('images/vine1.png');
+  vineSprites[1] = loadImage('images/vine2.png');
 
 }
 
 
 function setup() {
-  console.log(document.getElementById('startBtn'));
+  console.log('setup called');
   
   createCanvas(windowWidth, windowHeight);
   imageMode(CENTER);
@@ -48,9 +50,14 @@ function setup() {
 
   noLoop();
 
-  
-
-  document.getElementById('startBtn').addEventListener('click', startGameFromButton);
+  const startBtn = document.getElementById('startBtn');
+  window.startGameFromButton = startGameFromButton;
+  if (startBtn) {
+    startBtn.addEventListener('click', startGameFromButton);
+    console.log('startBtn listener attached');
+  } else {
+    console.log('startBtn not found');
+  }
 
   for (let i = 0; i < 50; i++) { 
     stars.push({ 
@@ -62,8 +69,11 @@ function setup() {
 }
 
 function startGameFromButton() {
+  console.log('startGameFromButton called');
 
-  document.querySelector("h1").hidden = true;
+  if (document.querySelector("h1")) {
+    document.querySelector("h1").hidden = true;
+  }
 
   //difficulty
   if (document.getElementById("easy").checked) difficulty = "easy"; 
