@@ -5,6 +5,8 @@ let obstacles;
 let isGameOver = false;
 let hasGameBegun = false;
 let score = 0;
+let difficulty = 'medium';
+
 
 let minDistanceBetweenObstacles;
 let nextSpawnDistance;
@@ -44,29 +46,28 @@ function setup() {
 
 function startGameFromButton() {
   //difficulty
-  if (document.getElementById('easy').checked) difficulty = 'easy';
-  if (document.getElementById('medium').checked) difficulty = 'medium';
-  if(document.getElementById('hard').checked) difficulty = 'hard';
+  if (document.getElementById("easy").checked) difficulty = "easy"; 
+  if (document.getElementById("medium").checked) difficulty = "medium"; 
+  if (document.getElementById("hard").checked) difficulty = "hard";
 
-  //hide all the stuff on the start screen
-  document.getElementById('easy').hidden = true
-  document.getElementById('medium').hidden = true
-  document.getElementById('hard').hidden = true
+  ["easy", "medium", "hard", "startBtn", "startMsg"].forEach(id => { 
+    let el = document.getElementById(id); 
+    if (el) el.hidden = true; 
+  });
 
-  document.getElementById('easyLabel').hidden = true
-  document.getElementById('mediumLabel').hidden = true
-  document.getElementById('hardLabel').hidden = true
-
-  document.getElementById('startBtn').hidden = true
-  document.getElementById('startMsg').hidden = true
+  ["easyLabel", "mediumLabel", "hardLabel"].forEach(id => { 
+    let el = document.getElementById(id); 
+    if (el) el.hidden = true; 
+  });
 
 
-  if (!hasGameBegun || isGameOver) {
+
     resetGame();
     hasGameBegun = true;
+    isGameOver = false;
     loop();
   }
-}
+
 
 function resetGame() {
   score = 0;
@@ -74,7 +75,7 @@ function resetGame() {
 
   ghost = new Ghost(120, height / 2);
   obstacles = [new Obstacle()];
-  nextSpawnDistance = random(minDistanceBetweenObstacles, width - width / 4);
+  nextSpawnDistance = random(minDistanceBetweenObstacles, width - width);
 }
 
 function draw() {
@@ -140,7 +141,8 @@ function drawScore() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   minDistanceBetweenObstacles = width / 3;
-  ghost.y = contrain(ghost.y, 0, height);
+  ghost.y = constrain(ghost.y, 0, height);
+  ghost.vel.y = 0;
 }
 
 function keyPressed() {
@@ -152,9 +154,9 @@ function keyPressed() {
     } else if (!hasGameBegun) {
       hasGameBegun = true;
       loop();
-      bird.flap();
+      ghost.flap();
     } else {
-      bird.flap();
+      ghost.flap();
     }
   }
 }
@@ -235,21 +237,34 @@ class Obstacle {
   }
 
   draw() {
-    fill(34, 139, 34);
-    noStroke();
-    rect(this.x, 0, this.width, this.top);
-    rect(this.x, height - this.bottom, this.width, this.bottom);
+    imageMode(CORNER);
+
+    image(
+      this.graveSprite,
+      this.x,
+      height - this.bottom,
+      this.width,
+      this.bottom
+    );
+
+    image(
+      this.vineSprite,
+      this.x,
+      0,
+      this.width,
+      this.top
+    );
   }
 
-  checkIfHitsBird(bird) {
-    const hitX = bird.x + bird.size / 2 > this.x && bird.x - bird.size / 2 < this.x + this.width;
+  checkIfHitsGhost(ghost) {
+    let hitX = ghost.x + ghost.size / 2 > this.x && ghost.x - ghost.size / 2 < this.x + this.width;
     if (!hitX) return false;
-    return bird.y - bird.size / 2 < this.top || bird.y + bird.size / 2 > height - this.bottom;
+    return (ghost.y - ghost.size / 2 < this.top || ghost.y + ghost.size / 2 > height - this.bottom);
   }
 
-  checkIfPastBird(bird) {
-    if (!this.pastBird && bird.x > this.x + this.width) {
-      this.pastBird = true;
+  checkIfPastGhost(ghost) {
+    if (!this.pastGhost && ghost.x > this.x + this.width) {
+      this.pastGhost = true;
       return true;
     }
     return false;
