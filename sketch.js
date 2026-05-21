@@ -15,7 +15,7 @@ let ghostSprite;
 let graveSprites = [];
 let vineSprites = [];
 
-//where images will be added in future (not sure if '' or "")
+//where images will be added in future (not sure if this is correct way to do)
 function preload() {
   ghostSprite = loadImage('');
 
@@ -31,25 +31,36 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
 
   resetGame();
 
-  // stop game loop until the player starts
   noLoop();
 
-  const startBtn = document.getElementById('startBtn');
-  if (startBtn) {
-    startBtn.addEventListener('click', startGameFromButton);
-    }
+  document.getElementById('startBtn').addEventListener('click', startGameFromButton);
+
 }
 
 function startGameFromButton() {
-    document.getElementById('easy').hidden = true
-    document.getElementById('medium').hidden = true
-    document.getElementById('hard').hidden = true
-    document.getElementById('startBtn').hidden = true
-    document.getElementById('startMsg').hidden = true
+  //difficulty
+  if (document.getElementById('easy').checked) difficulty = 'easy';
+  if (document.getElementById('medium').checked) difficulty = 'medium';
+  if(document.getElementById('hard').checked) difficulty = 'hard';
+
+  //hide all the stuff on the start screen
+  document.getElementById('easy').hidden = true
+  document.getElementById('medium').hidden = true
+  document.getElementById('hard').hidden = true
+
+  document.getElementById('easyLabel').hidden = true
+  document.getElementById('mediumLabel').hidden = true
+  document.getElementById('hardLabel').hidden = true
+
+  document.getElementById('startBtn').hidden = true
+  document.getElementById('startMsg').hidden = true
+
+
   if (!hasGameBegun || isGameOver) {
     resetGame();
     hasGameBegun = true;
@@ -61,72 +72,75 @@ function resetGame() {
   score = 0;
   isGameOver = false;
 
-  bird = new Bird(64, height / 2);
-  pipes = [new Pipe()];
-  nextSpawnDistance = random(minDistanceBetweenPipes, width - width / 4);
+  ghost = new Ghost(120, height / 2);
+  obstacles = [new Obstacle()];
+  nextSpawnDistance = random(minDistanceBetweenObstacles, width - width / 4);
 }
 
 function draw() {
-  background(220);
+  background(15, 15, 35);
 
-  if (pipes.length <= 0 || width - pipes[pipes.length - 1].x >= nextSpawnDistance) {
-    pipes.push(new Pipe());
-    nextSpawnDistance = random(minDistanceBetweenPipes, width - width / 5);
+  for (let i = 0; i < 50; i++) { 
+    fill("white"); 
+    circle(random(width), random(height), 2); 
   }
 
-  for (let i = pipes.length - 1; i >= 0; i--) {
-    pipes[i].update();
-    pipes[i].draw();
 
-    if (pipes[i].checkIfHitsBird(bird)) {
+  if (obstacles.length <= 0 || width - obstacles[obstacles.length - 1].x >= nextSpawnDistance) {
+    obstacles.push(new Obstacle());
+    nextSpawnDistance = random(minDistanceBetweenObstacles, width - width / 5);
+  }
+
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].update();
+    obstacles[i].draw();
+
+    if (obstacles[i].checkIfHitsGhost(ghost)) {
       isGameOver = true;
       noLoop();
     }
 
-    if (pipes[i].pastBird === false && pipes[i].checkIfPastBird(bird)) {
+    if (!obstacles[i].pastGhost && obstacles[i].checkIfPastGhost(ghost)) {
       score++;
     }
 
-    if (pipes[i].x + pipes[i].width < 0) {
-      pipes.splice(i, 1);
+    if (obstacles[i].x + obstacles[i].width < 0) {
+      obstacles.splice(i, 1);
     }
   }
 
-  bird.update();
-  bird.draw();
+  ghost.update();
+  ghost.draw();
   drawScore();
 }
 
 function drawScore() {
-  fill(0);
+  fill("white");
   textAlign(LEFT);
-  textSize(15);
-  text('Score: ' + score, 10, 20);
+  textSize(28);
+  text('Score: ' + score, 20, 40);
 
   if (isGameOver) {
-    fill(0, 0, 0, 150);
+    fill(0, 0, 0, 180);
     rect(0, 0, width, height);
 
     textAlign(CENTER);
-    textSize(50);
-    fill(255);
-    text('GAME OVER!', width / 2, height / 3);
+    textSize(60);
+    fill("red");
+    text('Game Over!', width / 2, height / 3);
 
+    fill('white');
     textSize(30);
-    text('Press SPACE BAR or Start to play again.', width / 2, height / 2);
-  } else if (!hasGameBegun) {
-    fill(0, 0, 0, 150);
-    rect(0, 0, width, height);
-
-    textAlign(CENTER);
-    textSize(18);
-    fill(255);
-    text('Click Start to begin!', width / 2, height / 2);
-  }
+    text('Press Space Bar or Start to play again.', width / 2, height / 2+20);
+    text("Final Score: " + score, width / 2, height / 2 - 40);
+  
+}
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  minDistanceBetweenObstacles = width / 3;
+  ghost.y = contrain(ghost.y, 0, height);
 }
 
 function keyPressed() {
@@ -145,14 +159,14 @@ function keyPressed() {
   }
 }
 
-class Bird {
+class Ghost {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = 32;
+    this.size = 40;
     this.vel = createVector(0, 0);
-    this.gravity = 0.3;
-    this.lift = -6;
+    this.gravity = 0.35;
+    this.lift = -7;
   }
 
   update() {
@@ -173,10 +187,16 @@ class Bird {
   }
 
   draw() {
-    fill(255, 204, 0);
-    stroke(0);
-    ellipse(this.x, this.y, this.size);
+
+    image(
+      ghostSprite,
+      this.x,
+      this.y,
+      this.size * 2,
+      this.size * 2,
+    );
   }
+  
 
   flap() {
     if (!isGameOver) {
@@ -185,15 +205,29 @@ class Bird {
   }
 }
 
-class Pipe {
+class Obstacle {
   constructor() {
-    this.spacing = 120;
-    this.top = random(40, height - this.spacing - 40);
+    if (difficulty === 'easy') {
+      this.spacing = 190;
+      this.speed = 2;
+    }
+    if (difficulty === 'medium') {
+       this.spacing = 150;
+       this.speed = 3;
+    }
+    if (difficulty === 'hard') {
+      this.spacing = 120;
+      this.speed = 4;
+    }
+
+    this.top = random(60, height - this.spacing - 60);
     this.bottom = height - this.top - this.spacing;
     this.x = width;
-    this.width = 50;
-    this.speed = 3;
-    this.pastBird = false;
+    this.width = 90;
+
+    this.pastGhost = false;
+    this.graveSprite = random(graveSprites);
+    this.vineSprite = random(vineSprites);
   }
 
   update() {
