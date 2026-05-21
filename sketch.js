@@ -73,9 +73,9 @@ function startGameFromButton() {
   if (document.getElementById("medium").checked) difficulty = "medium"; 
   if (document.getElementById("hard").checked) difficulty = "hard";
 
-  if (difficulty === "easy") gameSpeedMultiplier = 1; 
-  if (difficulty === "medium") gameSpeedMultiplier = 1.1; 
-  if (difficulty === "hard") gameSpeedMultiplier = 1.3;
+  if (difficulty === "easy") gameSpeedMultiplier = 1.1; 
+  if (difficulty === "medium") gameSpeedMultiplier = 1.2; 
+  if (difficulty === "hard") gameSpeedMultiplier = 1.4;
 
   ["easy", "medium", "hard", "startBtn", "startMsg"].forEach(id => { 
     let el = document.getElementById(id); 
@@ -163,7 +163,7 @@ function drawScore() {
 
     fill('white');
     textSize(30);
-    text('Press Space Bar or Start to play again.', width / 2, height / 2+20);
+    text('Press Space Bar to play again.', width / 2, height / 2+20);
     text("Final Score: " + score, width / 2, height / 2 - 40); }
   
   }
@@ -247,15 +247,15 @@ class Obstacle {
   constructor() {
     if (difficulty === 'easy') {
       this.spacing = 190;
-      this.speed = 3 * gameSpeedMultiplier;
+      this.speed = 4 * gameSpeedMultiplier;
     }
     if (difficulty === 'medium') {
        this.spacing = 150;
-       this.speed = 3.5 * gameSpeedMultiplier;
+       this.speed = 5 * gameSpeedMultiplier;
     }
     if (difficulty === 'hard') {
       this.spacing = 120;
-      this.speed = 4 * gameSpeedMultiplier;
+      this.speed = 6 * gameSpeedMultiplier;
     }
 
     this.top = random(60, height - this.spacing - 60);
