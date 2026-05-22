@@ -20,6 +20,8 @@ let vineSprites = [];
 
 let stars = [];
 
+let gameState = "menu";
+
 console.log('sketch.js loaded');
 
 function preload() {
@@ -41,7 +43,7 @@ function setup() {
   imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
 
-  resetGame();
+  gameState = "menu";
   noLoop();
 
   const startBtn = document.getElementById('startBtn');
@@ -60,6 +62,8 @@ function setup() {
 }
 
 function startGameFromButton() {
+  gameState = "playing";
+
   isGameOver = false;
   hideMenu();
 
@@ -72,6 +76,7 @@ function startGameFromButton() {
   if (difficulty === "hard") gameSpeedMultiplier = 1.4;
 
   resetGame();
+
   hasGameBegun = true;
 
   ghost.flap();
@@ -90,6 +95,15 @@ function resetGame() {
 
 function draw() {
   background(15, 15, 35);
+
+  // ✅ SPRITES HIDDEN UNTIL GAME STARTS
+  if (gameState !== "playing") {
+    for (let i = 0; i < stars.length; i++) {
+      fill("white");
+      circle(stars[i].x, stars[i].y, 2);
+    }
+    return;
+  }
 
   if (isGameOver) {
     drawGameOverScreen();
