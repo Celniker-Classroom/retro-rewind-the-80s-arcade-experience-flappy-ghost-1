@@ -42,13 +42,13 @@ function preload() {
 function setup() {
   console.log('setup called');
   
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight); 
+  canvas.style('z-index', '-1');
+  
   imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
 
   resetGame();
-
-  noLoop();
 
   const startBtn = document.getElementById('startBtn');
   window.startGameFromButton = startGameFromButton;
@@ -114,7 +114,13 @@ function resetGame() {
 }
 
 function draw() {
+  console.log("draw running");
+
   background(15, 15, 35);
+
+  if (isGameOver) { 
+    drawScore(); return; 
+  }
 
   for (let i = 0; i < stars.length; i++) { 
     fill("white"); 
@@ -133,7 +139,6 @@ function draw() {
 
     if (obstacles[i].checkIfHitsGhost(ghost)) {
       isGameOver = true;
-      noLoop();
     }
 
     if (obstacles[i].checkIfPastGhost(ghost)) {
@@ -218,7 +223,6 @@ class Ghost {
       this.y = height - this.size / 2;
       this.vel.y = 0;
       isGameOver = true;
-      noLoop();
     }
 
     if (this.y < this.size / 2) {
@@ -271,13 +275,12 @@ class Obstacle {
     this.width = 90;
 
     this.pastGhost = false;
-    this.graveSprite = random(graveSprites);
-    this.vineSprite = random(vineSprites);
-    this.graveSprite = random(graveSprites.filter(img => img)); 
-    this.vineSprite = random(vineSprites.filter(img => img));
+  
     const g = graveSprites.filter(img => img); 
     const v = vineSprites.filter(img => img); 
  
+    this.graveSprite = random(g); 
+    this.vineSprite = random(v);
   }
 
   update() {
@@ -306,6 +309,7 @@ class Obstacle {
     fill(120);
     rect(this.x, 0, this.width, this.top);
   }
+  imageMode(CENTER);
   }
 
   checkIfHitsGhost(ghost) {
