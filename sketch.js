@@ -263,8 +263,19 @@ class Obstacle {
   draw() {
     imageMode(CORNER);
 
-    image(this.graveSprite, this.x, height - this.bottom, this.width, this.bottom);
-    image(this.vineSprite, this.x, 0, this.width, this.top);
+    if (this.graveSprite) {
+      image(this.graveSprite, this.x, height - this.bottom, this.width, this.bottom);
+    } else {
+      fill(120);
+      rect(this.x, height - this.bottom, this.width, this.bottom);
+    }
+
+    if (this.vineSprite) {
+      image(this.vineSprite, this.x, 0, this.width, this.top);
+    } else {
+      fill(120);
+      rect(this.x, 0, this.width, this.top);
+    }
 
     imageMode(CENTER);
   }
