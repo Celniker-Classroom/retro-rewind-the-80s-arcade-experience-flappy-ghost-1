@@ -9,8 +9,6 @@ let score = 0;
 let difficulty = 'medium';
 let gameSpeedMultiplier = 1;
 
-
-
 let minDistanceBetweenObstacles;
 let nextSpawnDistance;
 
@@ -24,89 +22,66 @@ let stars = [];
 
 console.log('sketch.js loaded');
 
-//where images will be added in future (not sure if this is correct way to do )
 function preload() {
   ghostSprite = loadImage('images/ghost.png');
 
   graveSprites[0] = loadImage('images/smallgrave.png');
-  graveSprites[1] = loadImage('images/mediumgrave.png');
+  graveSprites[1] = loadImage('images/biggrave.png');
   graveSprites[2] = loadImage('images/cross.png');
   graveSprites[3] = loadImage('images/bigcross.png');
 
   vineSprites[0] = loadImage('images/vine1.png');
   vineSprites[1] = loadImage('images/vine2.png');
-
 }
 
-
 function setup() {
-  console.log('setup called');
-  
-  let canvas = createCanvas(windowWidth, windowHeight); 
-  canvas.style('z-index', '-1');
-  
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.style('display', 'block');
+
   imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
 
   resetGame();
+  noLoop();
 
   const startBtn = document.getElementById('startBtn');
   window.startGameFromButton = startGameFromButton;
+
   if (startBtn) {
     startBtn.addEventListener('click', startGameFromButton);
-    console.log('startBtn listener attached');
-  } else {
-    console.log('startBtn not found');
   }
 
-  for (let i = 0; i < 50; i++) { 
-    stars.push({ 
-      x: random(width), 
-      y: random(height) 
-    }); 
+  for (let i = 0; i < 50; i++) {
+    stars.push({
+      x: random(width),
+      y: random(height)
+    });
   }
-
 }
 
 function startGameFromButton() {
-  console.log('startGameFromButton called');
+  isGameOver = false;
+  hideMenu();
 
-  if (document.querySelector("h1")) {
-    document.querySelector("h1").hidden = true;
-  }
-
-  //difficulty
-  if (document.getElementById("easy").checked) difficulty = "easy"; 
-  if (document.getElementById("medium").checked) difficulty = "medium"; 
+  if (document.getElementById("easy").checked) difficulty = "easy";
+  if (document.getElementById("medium").checked) difficulty = "medium";
   if (document.getElementById("hard").checked) difficulty = "hard";
 
-  if (difficulty === "easy") gameSpeedMultiplier = 1.1; 
-  if (difficulty === "medium") gameSpeedMultiplier = 1.2; 
+  if (difficulty === "easy") gameSpeedMultiplier = 1.1;
+  if (difficulty === "medium") gameSpeedMultiplier = 1.2;
   if (difficulty === "hard") gameSpeedMultiplier = 1.4;
 
-  ["easy", "medium", "hard", "startBtn", "startMsg"].forEach(id => { 
-    let el = document.getElementById(id); 
-    if (el) el.hidden = true; 
-  });
+  resetGame();
+  hasGameBegun = true;
 
-  ["easyLabel", "mediumLabel", "hardLabel"].forEach(id => { 
-    let el = document.getElementById(id); 
-    if (el) el.hidden = true; 
-  });
-
-  
-
-
-    resetGame();
-    hasGameBegun = true;
-    isGameOver = false;
-    loop();
-  }
-
+  ghost.flap();
+  loop();
+}
 
 function resetGame() {
   score = 0;
   isGameOver = false;
+  hasGameBegun = false;
 
   ghost = new Ghost(120, height / 2);
   obstacles = [new Obstacle()];
@@ -114,19 +89,17 @@ function resetGame() {
 }
 
 function draw() {
-  console.log("draw running");
-
   background(15, 15, 35);
 
-  if (isGameOver) { 
-    drawScore(); return; 
+  if (isGameOver) {
+    drawGameOverScreen();
+    return;
   }
 
-  for (let i = 0; i < stars.length; i++) { 
-    fill("white"); 
-    circle(stars[i].x, stars[i].y, 2); 
+  for (let i = 0; i < stars.length; i++) {
+    fill("white");
+    circle(stars[i].x, stars[i].y, 2);
   }
-
 
   if (obstacles.length <= 0 || width - obstacles[obstacles.length - 1].x >= nextSpawnDistance) {
     obstacles.push(new Obstacle());
@@ -139,6 +112,8 @@ function draw() {
 
     if (obstacles[i].checkIfHitsGhost(ghost)) {
       isGameOver = true;
+      hideMenu();
+      return;
     }
 
     if (obstacles[i].checkIfPastGhost(ghost)) {
@@ -151,42 +126,45 @@ function draw() {
   }
 
   ghost.update();
-
-ghost.draw();
-
+  ghost.draw();
   drawScore();
+}
 
-};
-  
 function drawScore() {
   fill("white");
   textAlign(LEFT);
   textSize(28);
   text('Score: ' + score, 20, 40);
+}
 
-  if (isGameOver){
-    fill(0, 0, 0, 180);
-    rect(0, 0, width, height);
+function drawGameOverScreen() {
+  fill("white");
+  textAlign(LEFT);
+  textSize(28);
+  text('Score: ' + score, 20, 40);
 
-    textAlign(CENTER);
-    textSize(60);
-    fill("red");
-    text('Game Over!', width / 2, height / 3);
+  fill(0, 0, 0, 180);
+  rect(0, 0, width, height);
 
-    fill('white');
-    textSize(30);
-    text('Press Space Bar to play again.', width / 2, height / 2+20);
-    text("Final Score: " + score, width / 2, height / 2 - 40); }
-  
-  }
+  textAlign(CENTER);
+  textSize(60);
+  fill("red");
+  text('Game Over!', width / 2, height / 3);
 
-
+  fill('white');
+  textSize(30);
+  text("Final Score: " + score, width / 2, height / 2 - 40);
+  text('Press Space Bar to play again', width / 2, height / 2 + 20);
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   minDistanceBetweenObstacles = width / 3;
-  ghost.y = constrain(ghost.y, 0, height);
-  ghost.vel.y = 0;
+
+  if (ghost) {
+    ghost.y = constrain(ghost.y, 0, height);
+    ghost.vel.y = 0;
+  }
 }
 
 function keyPressed() {
@@ -194,6 +172,7 @@ function keyPressed() {
     if (isGameOver) {
       resetGame();
       hasGameBegun = true;
+      ghost.flap();
       loop();
     } else if (!hasGameBegun) {
       hasGameBegun = true;
@@ -223,6 +202,7 @@ class Ghost {
       this.y = height - this.size / 2;
       this.vel.y = 0;
       isGameOver = true;
+      hideMenu();
     }
 
     if (this.y < this.size / 2) {
@@ -233,19 +213,12 @@ class Ghost {
 
   draw() {
     if (ghostSprite) {
-    image(
-      ghostSprite,
-      this.x,
-      this.y,
-      this.size * 2,
-      this.size * 2,
-    );
-  } else {
+      image(ghostSprite, this.x, this.y, this.size * 2, this.size * 2);
+    } else {
       fill("white");
       ellipse(this.x, this.y, this.size);
     }
   }
-  
 
   flap() {
     if (!isGameOver) {
@@ -261,8 +234,8 @@ class Obstacle {
       this.speed = 4 * gameSpeedMultiplier;
     }
     if (difficulty === 'medium') {
-       this.spacing = 150;
-       this.speed = 5 * gameSpeedMultiplier;
+      this.spacing = 150;
+      this.speed = 5 * gameSpeedMultiplier;
     }
     if (difficulty === 'hard') {
       this.spacing = 120;
@@ -275,11 +248,11 @@ class Obstacle {
     this.width = 90;
 
     this.pastGhost = false;
-  
-    const g = graveSprites.filter(img => img); 
-    const v = vineSprites.filter(img => img); 
- 
-    this.graveSprite = random(g); 
+
+    const g = graveSprites.filter(img => img);
+    const v = vineSprites.filter(img => img);
+
+    this.graveSprite = random(g);
     this.vineSprite = random(v);
   }
 
@@ -290,32 +263,23 @@ class Obstacle {
   draw() {
     imageMode(CORNER);
 
-    if (this.graveSprite) {image(
-      this.graveSprite,
-      this.x,
-      height - this.bottom,
-      this.width,
-      this.bottom
-    ); } else { fill(120); rect(this.x, height - this.bottom, this.width, this.bottom); }
+    image(this.graveSprite, this.x, height - this.bottom, this.width, this.bottom);
+    image(this.vineSprite, this.x, 0, this.width, this.top);
 
-    if (this.vineSprite) {
-      image(
-      this.vineSprite,
-      this.x,
-      0,
-      this.width,
-      this.top
-    );  } else {
-    fill(120);
-    rect(this.x, 0, this.width, this.top);
-  }
-  imageMode(CENTER);
+    imageMode(CENTER);
   }
 
   checkIfHitsGhost(ghost) {
-    let hitX = ghost.x + ghost.size / 2 > this.x && ghost.x - ghost.size / 2 < this.x + this.width;
+    let hitX =
+      ghost.x + ghost.size / 2 > this.x &&
+      ghost.x - ghost.size / 2 < this.x + this.width;
+
     if (!hitX) return false;
-    return (ghost.y - ghost.size / 2 < this.top || ghost.y + ghost.size / 2 > height - this.bottom);
+
+    return (
+      ghost.y - ghost.size / 2 < this.top ||
+      ghost.y + ghost.size / 2 > height - this.bottom
+    );
   }
 
   checkIfPastGhost(ghost) {
@@ -325,4 +289,8 @@ class Obstacle {
     }
     return false;
   }
+}
+
+function hideMenu() {
+  document.getElementById("menu").style.display = "none";
 }
