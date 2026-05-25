@@ -70,3 +70,51 @@ h2 {
     background-color: rgb(220, 220, 220);
 }
 
+/* Layout for start menu with right-side info box */
+.menu-inner {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.menu-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-right {
+    width: 380px;
+}
+
+.info-box {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 18px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: left;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+#startBtn {
+    position: static;
+    transform: none;
+    z-index: 10;
+    padding: 12px 30px;
+    font-size: 24px;
+    border: none;
+    background-color: white;
+    color: rgb(20, 20, 40);
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+@media (max-width: 700px) {
+    .menu-inner { flex-direction: column; align-items: center; }
+    .menu-right { width: 90%; }
+    .info-box { max-height: 40vh; }
+}

@@ -20,8 +20,6 @@ let vineSprites = [];
 
 let stars = [];
 
-let gameState = "menu";
-
 console.log('sketch.js loaded');
 
 function preload() {
@@ -43,7 +41,7 @@ function setup() {
   imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
 
-  gameState = "menu";
+  resetGame();
   noLoop();
 
   const startBtn = document.getElementById('startBtn');
@@ -61,9 +59,21 @@ function setup() {
   }
 }
 
-function startGameFromButton() {
-  gameState = "playing";
+function showMenu() {
+  const menu = document.getElementById('menu');
+  if (menu) {
+    menu.style.display = 'flex';
+  }
+}
 
+function hideMenu() {
+  const menu = document.getElementById('menu');
+  if (menu) {
+    menu.style.display = 'none';
+  }
+}
+
+function startGameFromButton() {
   isGameOver = false;
   hideMenu();
 
@@ -76,7 +86,6 @@ function startGameFromButton() {
   if (difficulty === "hard") gameSpeedMultiplier = 1.4;
 
   resetGame();
-
   hasGameBegun = true;
 
   ghost.flap();
@@ -95,15 +104,6 @@ function resetGame() {
 
 function draw() {
   background(15, 15, 35);
-
-  // ✅ SPRITES HIDDEN UNTIL GAME STARTS
-  if (gameState !== "playing") {
-    for (let i = 0; i < stars.length; i++) {
-      fill("white");
-      circle(stars[i].x, stars[i].y, 2);
-    }
-    return;
-  }
 
   if (isGameOver) {
     drawGameOverScreen();
@@ -152,6 +152,8 @@ function drawScore() {
 }
 
 function drawGameOverScreen() {
+  showMenu();
+
   fill("white");
   textAlign(LEFT);
   textSize(28);
@@ -277,19 +279,8 @@ class Obstacle {
   draw() {
     imageMode(CORNER);
 
-    if (this.graveSprite) {
-      image(this.graveSprite, this.x, height - this.bottom, this.width, this.bottom);
-    } else {
-      fill(120);
-      rect(this.x, height - this.bottom, this.width, this.bottom);
-    }
-
-    if (this.vineSprite) {
-      image(this.vineSprite, this.x, 0, this.width, this.top);
-    } else {
-      fill(120);
-      rect(this.x, 0, this.width, this.top);
-    }
+    image(this.graveSprite, this.x, height - this.bottom, this.width, this.bottom);
+    image(this.vineSprite, this.x, 0, this.width, this.top);
 
     imageMode(CENTER);
   }

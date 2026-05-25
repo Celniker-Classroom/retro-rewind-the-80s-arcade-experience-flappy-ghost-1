@@ -17,27 +17,38 @@
 <body>
 	<main>
 		<div id="menu">
-		<h1> Welcome to Flappy Ghost!</h1>
-		<h2 id="startMsg">Select your difficulty!</h2>
+			<div class="menu-inner">
+				<div class="menu-left">
+					<h1> Welcome to Flappy Ghost!</h1>
+					<h2 id="startMsg">Select your difficulty!</h2>
 
-		<div class="option">
-			<input type="radio" id="easy" name="difficulty" checked>
-  			<label for="easy">Easy</label>
-		</div>
+					<div class="option">
+						<input type="radio" id="easy" name="difficulty" checked>
+				 		<label for="easy">Easy</label>
+					</div>
 
-		<div class="option">
-			<input type="radio" id="medium" name="difficulty">
-			<label for="medium">Medium</label>
-		</div>
+					<div class="option">
+						<input type="radio" id="medium" name="difficulty">
+						<label for="medium">Medium</label>
+					</div>
 
-		<div class="option">
-			<input type="radio" id="hard" name="difficulty">
-			<label for="hard">Hard</label>
-		</div>
+					<div class="option">
+						<input type="radio" id="hard" name="difficulty">
+						<label for="hard">Hard</label>
+					</div>
 
-		<input type="button" id="startBtn" value="Start" onclick="startGameFromButton()">
+					<input type="button" id="startBtn" value="Start">
+				</div>
 
+				<div class="menu-right">
+					<div class="info-box">
+						<p>
+						Our game was inspired by the game Flappy Bird, to which we added a spooky twist by theming the game around a graveyard. We used the overall mechanics of the game, including the “flapping” gameplay of moving the bird upwards by pressing the space bar, and the general basis of the game. For our own game, we used a ghost as our main character, and changed the pipes and background from the original game to gravestones and a foggy background. We also added different difficulty levels that change both the speed of the game and the gap between the pipes to make the game either easier or more difficult.
+						</p>
+					</div>
+				</div>
 			</div>
+		</div>
 
 	<!-- Load p5.js library -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
