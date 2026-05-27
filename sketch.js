@@ -35,8 +35,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
-  canvas.style('display', 'block');
+  createCanvas(windowWidth, windowHeight);
 
   imageMode(CENTER);
   minDistanceBetweenObstacles = width / 3;
@@ -66,12 +65,6 @@ function showMenu() {
   }
 }
 
-function hideMenu() {
-  const menu = document.getElementById('menu');
-  if (menu) {
-    menu.style.display = 'none';
-  }
-}
 
 function startGameFromButton() {
   isGameOver = false;
@@ -112,7 +105,7 @@ function draw() {
 
   for (let i = 0; i < stars.length; i++) {
     fill("white");
-    circle(stars[i].x, stars[i].y, 2);
+    ellipse(stars[i].x, stars[i].y, 2, 2);  
   }
 
   if (obstacles.length <= 0 || width - obstacles[obstacles.length - 1].x >= nextSpawnDistance) {
@@ -152,7 +145,7 @@ function drawScore() {
 }
 
 function drawGameOverScreen() {
-  showMenu();
+
 
   fill("white");
   textAlign(LEFT);
